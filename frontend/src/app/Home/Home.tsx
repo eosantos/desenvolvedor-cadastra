@@ -23,6 +23,13 @@ const HomeContainer = styled.div`
   color: #000;
   min-height: 100vh;
   padding-bottom: 60px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
 `;
 
 const Content = styled.main`
@@ -32,6 +39,11 @@ const Content = styled.main`
   display: flex;
   flex-direction: column;
   gap: 30px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    gap: 20px;
+  }
 `;
 
 const TopBar = styled.div`
@@ -51,26 +63,39 @@ const Title = styled.h1`
 const FiltersAndGridContainer = styled.div`
   display: flex;
   gap: 30px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 `;
 
 const FilterContainer = styled.div`
   width: 170px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ProductsContainer = styled.div`
   flex: 1;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
-// Estilos para a versão mobile
 const MobileButtonsContainer = styled.div`
   display: none;
 
   @media (max-width: 768px) {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
     width: 100%;
     margin-bottom: 20px;
+    padding: 0 10px;
   }
 `;
 
@@ -102,10 +127,12 @@ const MobileButton = styled.button`
 `;
 
 const ProductsGridMobileContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 20px;
   width: 100%;
+
   @media (min-width: 768px) {
     display: none;
   }
@@ -122,6 +149,10 @@ const LoadMoreButton = styled.button`
   width: 100%;
   margin-top: 20px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 10px 15px;
+  }
 `;
 
 const ProductsGridDesktopContainer = styled.div`
@@ -157,24 +188,21 @@ const Home: React.FC = () => {
     <HomeContainer>
       <Header />
       <Content>
-      <TopBar>
-        <Title>Blusas</Title>
+        <TopBar>
+          <Title>Blusas</Title>
+          <DesktopOnly>
+            <CustomSelect
+              options={options}
+              selectedOption={selectedOption}
+              onSelect={handleSelectChange}
+            />
+          </DesktopOnly>
+        </TopBar>
 
-        {/* CustomSelect para desktop */}
-        <DesktopOnly>
-          <CustomSelect
-            options={options}
-            selectedOption={selectedOption}
-            onSelect={handleSelectChange}
-          />
-        </DesktopOnly>
-      </TopBar>
-
-      <MobileButtonsContainer>
-        <MobileButton onClick={() => setIsMobileFiltersOpen(true)}>Filtrar</MobileButton>
-        <MobileButton onClick={() => setIsMobileOrderOpen(true)}>Ordenar</MobileButton>
-      </MobileButtonsContainer>
-
+        <MobileButtonsContainer>
+          <MobileButton onClick={() => setIsMobileFiltersOpen(true)}>Filtrar</MobileButton>
+          <MobileButton onClick={() => setIsMobileOrderOpen(true)}>Ordenar</MobileButton>
+        </MobileButtonsContainer>
 
         <ProductsGridMobileContainer>
           <ProductsGrid order={selectedOption} filters={filters} />
@@ -190,7 +218,6 @@ const Home: React.FC = () => {
             </ProductsContainer>
           </FiltersAndGridContainer>
         </ProductsGridDesktopContainer>
-
       </Content>
       <Footer />
 

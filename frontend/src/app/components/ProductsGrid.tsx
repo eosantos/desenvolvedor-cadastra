@@ -15,34 +15,80 @@ interface Product {
 }
 
 const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 20px;
-  max-width: 1200px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  max-width: 700px;
   margin: 0 auto;
+  padding: 0 20px;
+
+  & > div {
+    flex: 1 1 calc(33.333% - 20px);
+    max-width: 195px;
+  }
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    max-width: 100%;
+    & > div {
+      flex: 1 1 calc(50% - 15px);
+      max-width: 130px;
+    }
+
+    justify-content: center;
   }
 `;
 
+
 const ProductCard = styled.div`
-  background-color: #f9f9f9;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 100%;
+  max-width: 150px;
+  height: 425px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
-    max-width: 100px;
+    max-width: 130px;
+    height: 380px;
+    padding: 10px;
+    margin: 0 auto;
   }
 
   img {
     width: 100%;
-    height: auto;
+    max-width: 130px;
+    height: 130px;
     object-fit: cover;
+    border-radius: 4px;
+  }
+
+  h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+  }
+
+  p {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  button {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 130px;
   }
 `;
 
@@ -51,33 +97,42 @@ const ProductInfo = styled.div`
 
   h3 {
     font-size: 1rem;
-    color: #333;
+    color: #000;
+    font-wigth: 100;
     margin: 10px 0;
   }
-
-  span {
-    font-size: 1.2rem;
-    color: #fb953e;
-  }
-
   p {
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 1rem;
+    color: #000;
   }
 `;
 
+const TextPrice = styled.p `
+  font-size: 1.2rem;
+  color: #000;
+  margin: 15px 0 5px 0;
+}`
+
+
 const BuyButton = styled.button`
-  background-color: #fb953e;
+  background-color: #000;
   color: white;
   padding: 10px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
-  margin-top: 10px;
+  margin-top: 20px;
+  width: 195px;
+  font-weigth: bold;
+
 
   &:hover {
     background-color: #d77b2b;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+      margin-top: 20px;
   }
 `;
 
@@ -89,7 +144,8 @@ const LoadMoreButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   width: 165px;
-  margin-top: 20px;
+  margin: 20px auto 60px auto; /* Centraliza no eixo horizontal */
+  display: block; /* Necessário para funcionar com margin auto */
 
   &:hover {
     background-color: #d77b2b;
@@ -186,7 +242,7 @@ const ProductsGrid: React.FC<{ order: string; filters: { colors: string[]; sizes
                 />
                 <ProductInfo>
                   <h3>{product.name}</h3>
-                  <span>R$ {product.price.toFixed(2)}</span>
+                  <TextPrice>R$ {product.price.toFixed(2)}</TextPrice>
                   <p>
                     até {product.parcelamento[0]}x de R$ {product.parcelamento[1].toFixed(2)}
                   </p>
