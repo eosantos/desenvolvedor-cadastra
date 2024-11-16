@@ -74,7 +74,7 @@ const BuyButton = styled.button`
 `;
 
 const LoadMoreButton = styled.button`
-  margin: 70px auto 0 auto;
+  margin: 70px auto 15px auto;
   display: block;
   width: 175px;
   height: 35px;

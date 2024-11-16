@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import CustomSelect from '../components/CustomSelect';
 import Filters from '../components/Filters';
 import ProductsGrid from '../components/ProductsGrid';
+import Footer from '../components/Footer';
 
 const HomeContainer = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ const HomeContainer = styled.div`
   background-color: #ffffff;
   color: #000;
   min-height: 100vh;
+  padding-bottom: 60px;
 `;
 
 const Content = styled.main`
@@ -91,6 +93,7 @@ const Home: React.FC = () => {
           </ProductsContainer>
         </FiltersAndGridContainer>
       </Content>
+      <Footer />
     </HomeContainer>
   );
 };
