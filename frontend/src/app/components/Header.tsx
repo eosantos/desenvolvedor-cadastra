@@ -1,8 +1,6 @@
-// src/app/components/Header.tsx
-
 import styled from 'styled-components';
 import { HiShoppingBag } from 'react-icons/hi';
-import Logo from './Logo'; // Certifique-se de importar corretamente
+import Logo from './Logo';
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -51,7 +49,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <HeaderContent>
-        <Logo /> {/* Aqui estamos utilizando o Logo com a imagem PNG */}
+        <Logo />
         <ShoppingCart>
           <HiShoppingBag />
           <CartBadge>1</CartBadge>

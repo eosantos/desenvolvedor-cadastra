@@ -3,8 +3,9 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import Header from '../components/Header';
-import CustomSelect from '../components/CustomSelect'; // Importando o novo componente de filtro de ordenação
-import Filters from '../components/Filters'; // Importando o componente Filters (do filtro lateral)
+import CustomSelect from '../components/CustomSelect';
+import Filters from '../components/Filters';
+import ProductsGrid from '../components/ProductsGrid';
 
 const HomeContainer = styled.div`
   display: flex;
@@ -20,27 +21,35 @@ const Content = styled.main`
   width: 100%;
   padding: 20px;
   display: flex;
-  gap: 30px; /* Espaçamento entre filtros e conteúdo principal */
+  flex-direction: column; /* Adicionado para organizar o título e o conteúdo verticalmente */
+  gap: 30px;
 `;
 
-const TitleAndFilter = styled.div`
+const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
-  flex-wrap: wrap; /* Garante que os filtros e o título se adaptem responsivamente */
+  flex-wrap: wrap;
+  margin-bottom: 20px; /* Espaçamento entre a barra superior e os filtros/grid */
 `;
 
 const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
   color: #000;
-  flex: 1;
+`;
+
+const FiltersAndGridContainer = styled.div`
+  display: flex;
+  gap: 30px; /* Espaçamento entre filtros e grid */
 `;
 
 const FilterContainer = styled.div`
-  width: 170px; /* Largura máxima para o filtro lateral */
-  margin-top: 60px; /* Distância de 60px abaixo do título */
+  width: 170px; /* Largura fixa para os filtros */
+`;
+
+const ProductsContainer = styled.div`
+  flex: 1; /* Faz o grid de produtos ocupar o restante do espaço */
 `;
 
 const Separator = styled.div`
@@ -62,21 +71,25 @@ const Home: React.FC = () => {
     <HomeContainer>
       <Header />
       <Content>
-
-          
-
-        <div style={{ flex: 1 }}>
-          <TitleAndFilter>
-            <Title>Blusas</Title>
-            <CustomSelect
-              options={options}
-              selectedOption={selectedOption}
-              onSelect={handleSelectChange}
-            />
-          </TitleAndFilter>
-          <Separator />
-        <Filters />
-        </div>
+        {/* Barra superior com título e seletor */}
+        <TopBar>
+          <Title>Blusas</Title>
+          <CustomSelect
+            options={options}
+            selectedOption={selectedOption}
+            onSelect={handleSelectChange}
+          />
+        </TopBar>
+        <Separator />
+        {/* Container principal com filtros e grid */}
+        <FiltersAndGridContainer>
+          <FilterContainer>
+            <Filters />
+          </FilterContainer>
+          <ProductsContainer>
+            <ProductsGrid />
+          </ProductsContainer>
+        </FiltersAndGridContainer>
       </Content>
     </HomeContainer>
   );

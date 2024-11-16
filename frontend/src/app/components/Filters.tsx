@@ -10,7 +10,6 @@ const FiltersContainer = styled.div`
   width: 235px;
   padding: 20px;
   background-color: #fff;
-  border: 1px solid #ddd;
 `;
 
 const FilterSection = styled.div`
