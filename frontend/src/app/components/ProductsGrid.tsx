@@ -16,9 +16,9 @@ interface Product {
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 50px;
-  margin: 20px 30px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+  margin: 20px 50px;
   max-width: 900px;
 `;
 
@@ -59,13 +59,31 @@ const ProductInfo = styled.div`
 
 const BuyButton = styled.button`
   margin-top: 12px;
-  padding: 5px 16px;
-  width: 195px;
+  height: 33px;
+  width: 100%;
   background-color: #000;
   color: #fff;
   border: none;
   font-size: 14px;
   cursor: pointer;
+  width: 195px;
+
+  &:hover {
+    background-color: #e77a2b;
+  }
+`;
+
+const LoadMoreButton = styled.button`
+  margin: 70px auto 0 auto;
+  display: block;
+  width: 175px;
+  height: 35px;
+  background-color: #fb953e;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #000;
 
   &:hover {
     background-color: #e77a2b;
@@ -73,8 +91,9 @@ const BuyButton = styled.button`
 `;
 
 const ProductsGrid: React.FC = () => {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [visibleCount, setVisibleCount] = useState<number>(9);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -92,30 +111,45 @@ const ProductsGrid: React.FC = () => {
     fetchProducts();
   }, []);
 
+  const loadMoreProducts = () => {
+    if (visibleCount >= products.length) {
+      setVisibleCount(9); // Volta para os 9 primeiros
+    } else {
+      setVisibleCount((prevCount) => prevCount + 9);
+    }
+  };
+
   if (loading) {
     return <p>Carregando produtos...</p>;
   }
 
   return (
-    <GridContainer>
-      {products.map((product) => (
-        <ProductCard key={product.id}>
-          <img
-            src={product.image}
-            alt={product.name}
-            style={{ width: "195px", height: "auto" }}
-          />
-          <ProductInfo>
-            <h3>{product.name}</h3>
-            <span>R$ {product.price.toFixed(2)}</span>
-            <p>
-              até {product.parcelamento[0]}x de R$ {product.parcelamento[1].toFixed(2)}
-            </p>
-            <BuyButton>COMPRAR</BuyButton>
-          </ProductInfo>
-        </ProductCard>
-      ))}
-    </GridContainer>
+    <>
+      <GridContainer>
+        {products.slice(0, visibleCount).map((product) => (
+          <ProductCard key={product.id}>
+            <img
+              src={product.image}
+              alt={product.name}
+              style={{ width: '195px', height: 'auto' }}
+            />
+            <ProductInfo>
+              <h3>{product.name}</h3>
+              <span>R$ {product.price.toFixed(2)}</span>
+              <p>
+                até {product.parcelamento[0]}x de R$ {product.parcelamento[1].toFixed(2)}
+              </p>
+              <BuyButton>COMPRAR</BuyButton>
+            </ProductInfo>
+          </ProductCard>
+        ))}
+      </GridContainer>
+      {products.length > 9 && (
+        <LoadMoreButton onClick={loadMoreProducts}>
+          {visibleCount >= products.length ? 'VER MENOS' : 'CARREGAR MAIS'}
+        </LoadMoreButton>
+      )}
+    </>
   );
 };
 
