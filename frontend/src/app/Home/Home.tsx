@@ -3,10 +3,11 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import Header from '../components/Header';
-import CustomSelect from '../components/CustomSelect';
 import Filters from '../components/Filters';
 import ProductsGrid from '../components/ProductsGrid';
 import Footer from '../components/Footer';
+import { ModalOverlay, ModalContent, ModalTitle, CloseButton, ModalButton } from '../components/Modal';
+import CustomSelect from '../components/CustomSelect';
 
 interface FiltersState {
   colors: string[];
@@ -60,25 +61,92 @@ const ProductsContainer = styled.div`
   flex: 1;
 `;
 
-const Separator = styled.div`
+// Estilos para a versão mobile
+const MobileButtonsContainer = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+`;
+
+const DesktopOnly = styled.div`
+  display: block;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const MobileOnly = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const MobileButton = styled.button`
+  background-color: #fb953e;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  width: 48%;
+`;
+
+const ProductsGridMobileContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   width: 100%;
-  height: 1px;
-  background-color: #ddd;
-  margin: 20px 0;
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const LoadMoreButton = styled.button`
+  background-color: #fb953e;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+`;
+
+const ProductsGridDesktopContainer = styled.div`
+  display: block;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Home: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [selectedOption, setSelectedOption] = useState<string>('Ordenar por:');
   const [filters, setFilters] = useState<FiltersState>({
     colors: [],
     sizes: [],
     prices: [],
   });
 
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState<boolean>(false);
+  const [isMobileOrderOpen, setIsMobileOrderOpen] = useState<boolean>(false);
+
   const options = ['Mais recentes', 'Menor preço', 'Maior preço'];
 
   const handleSelectChange = (value: string) => {
-    setSelectedOption(value);    
+    setSelectedOption(value);
   };
 
   const handleFilterChange = (newFilters: FiltersState) => {
@@ -89,27 +157,65 @@ const Home: React.FC = () => {
     <HomeContainer>
       <Header />
       <Content>
-        {/* Barra superior com título e seletor */}
-        <TopBar>
-          <Title>Blusas</Title>
+      <TopBar>
+        <Title>Blusas</Title>
+
+        {/* CustomSelect para desktop */}
+        <DesktopOnly>
           <CustomSelect
-            options={['Ordenar por:', ...options]}
+            options={options}
             selectedOption={selectedOption}
             onSelect={handleSelectChange}
           />
-        </TopBar>
-        <Separator />
-        {/* Container principal com filtros e grid */}
-        <FiltersAndGridContainer>
-          <FilterContainer>
-            <Filters onFilterChange={handleFilterChange} />
-          </FilterContainer>
-          <ProductsContainer>
-            <ProductsGrid order={selectedOption} filters={filters} />
-          </ProductsContainer>
-        </FiltersAndGridContainer>
+        </DesktopOnly>
+      </TopBar>
+
+      <MobileButtonsContainer>
+        <MobileButton onClick={() => setIsMobileFiltersOpen(true)}>Filtrar</MobileButton>
+        <MobileButton onClick={() => setIsMobileOrderOpen(true)}>Ordenar</MobileButton>
+      </MobileButtonsContainer>
+
+
+        <ProductsGridMobileContainer>
+          <ProductsGrid order={selectedOption} filters={filters} />
+        </ProductsGridMobileContainer>
+
+        <ProductsGridDesktopContainer>
+          <FiltersAndGridContainer>
+            <FilterContainer>
+              <Filters onFilterChange={handleFilterChange} />
+            </FilterContainer>
+            <ProductsContainer>
+              <ProductsGrid order={selectedOption} filters={filters} />
+            </ProductsContainer>
+          </FiltersAndGridContainer>
+        </ProductsGridDesktopContainer>
+
       </Content>
       <Footer />
+
+      <ModalOverlay $isOpen={isMobileFiltersOpen}>
+        <ModalContent>
+          <CloseButton onClick={() => setIsMobileFiltersOpen(false)}>X</CloseButton>
+          <ModalTitle>Filtros</ModalTitle>
+          <Filters onFilterChange={handleFilterChange} />
+          <ModalButton onClick={() => setIsMobileFiltersOpen(false)}>Aplicar</ModalButton>
+          <ModalButton onClick={() => setIsMobileFiltersOpen(false)}>Limpar</ModalButton>
+        </ModalContent>
+      </ModalOverlay>
+
+      <ModalOverlay $isOpen={isMobileOrderOpen}>
+        <ModalContent>
+          <CloseButton onClick={() => setIsMobileOrderOpen(false)}>X</CloseButton>
+          <ModalTitle>Ordenar</ModalTitle>
+          <CustomSelect
+            options={['Mais recentes', 'Menor preço', 'Maior preço']}
+            selectedOption={selectedOption}
+            onSelect={handleSelectChange}
+          />
+          <ModalButton onClick={() => setIsMobileOrderOpen(false)}>Aplicar</ModalButton>
+        </ModalContent>
+      </ModalOverlay>
     </HomeContainer>
   );
 };

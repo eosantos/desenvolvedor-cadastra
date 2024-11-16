@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const CustomSelectContainer = styled.div`
   position: relative;
-  display: inline-block;
+  display: inline-block; /* Garante a exibição no desktop */
 
   select {
     display: none;
@@ -83,11 +83,13 @@ interface CustomSelectProps {
   options: string[];
   selectedOption: string;
   onSelect: (value: string) => void;
+  style?: React.CSSProperties; // Adicione esta linha para suportar a prop style
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ options, selectedOption, onSelect }) => {
+
+const CustomSelect: React.FC<CustomSelectProps> = ({ options, selectedOption, onSelect, style }) => {
   return (
-    <CustomSelectContainer>
+    <CustomSelectContainer style={style}>
       <div className="custom-select">
         {selectedOption || 'Ordenar por:'}
       </div>

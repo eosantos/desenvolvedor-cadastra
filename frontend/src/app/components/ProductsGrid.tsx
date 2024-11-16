@@ -16,83 +16,89 @@ interface Product {
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  margin: 20px 50px;
-  max-width: 900px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    max-width: 100%;
+  }
 `;
 
 const ProductCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
+  background-color: #f9f9f9;
+  padding: 15px;
   border-radius: 8px;
-  overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  align-items: center;
   text-align: center;
+
+  @media (max-width: 768px) {
+    max-width: 100px;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
 `;
 
 const ProductInfo = styled.div`
-  padding: 16px;
+  margin-top: 10px;
 
   h3 {
-    font-size: 18px;
-    color: #000;
-    margin-bottom: 15px;
-    font-weight: 100;
-  }
-
-  p {
-    font-size: 14px;
-    color: #666;
-    margin: 8px 0 0 0;
+    font-size: 1rem;
+    color: #333;
+    margin: 10px 0;
   }
 
   span {
-    font-size: 16px;
-    color: #000;
-    font-weight: bold;
-    margin-bottom: 8px;
+    font-size: 1.2rem;
+    color: #fb953e;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: #666;
   }
 `;
 
 const BuyButton = styled.button`
-  margin-top: 12px;
-  height: 33px;
-  width: 100%;
-  background-color: #000;
-  color: #fff;
+  background-color: #fb953e;
+  color: white;
+  padding: 10px;
   border: none;
-  font-size: 14px;
+  border-radius: 5px;
   cursor: pointer;
-  width: 195px;
+  font-size: 0.9rem;
+  margin-top: 10px;
 
   &:hover {
-    background-color: #e77a2b;
+    background-color: #d77b2b;
   }
 `;
 
 const LoadMoreButton = styled.button`
-  margin: 70px auto 15px auto;
-  display: block;
-  width: 175px;
-  height: 35px;
   background-color: #fb953e;
-  color: #fff;
+  color: white;
   border: none;
-  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
   cursor: pointer;
-  border: 1px solid #000;
+  width: 165px;
+  margin-top: 20px;
 
   &:hover {
-    background-color: #e77a2b;
+    background-color: #d77b2b;
   }
 `;
 
-const NoProductsMessage = styled.p`
+const NoProductsMessage = styled.div`
   text-align: center;
-  font-size: 18px;
+  font-size: 1.2rem;
   color: #666;
   margin-top: 20px;
 `;
@@ -121,11 +127,11 @@ const ProductsGrid: React.FC<{ order: string; filters: { colors: string[]; sizes
     fetchProducts();
   }, []);
 
-  const loadMoreProducts = () => {
+  const toggleProductsVisibility = () => {
     if (visibleCount >= products.length) {
-      setVisibleCount(9);
+      setVisibleCount(9); // Reduz para 9 produtos
     } else {
-      setVisibleCount((prevCount) => prevCount + 9);
+      setVisibleCount((prevCount) => prevCount + 9); // Aumenta a quantidade visível
     }
   };
 
@@ -169,33 +175,34 @@ const ProductsGrid: React.FC<{ order: string; filters: { colors: string[]; sizes
       {sortedProducts.length === 0 ? (
         <NoProductsMessage>Nenhum produto encontrado para o filtro selecionado :(</NoProductsMessage>
       ) : (
-        <GridContainer>
-          {sortedProducts.slice(0, visibleCount).map((product) => (
-            <ProductCard key={product.id}>
-              <img
-                src={product.image}
-                alt={product.name}
-                style={{ width: '195px', height: 'auto' }}
-              />
-              <ProductInfo>
-                <h3>{product.name}</h3>
-                <span>R$ {product.price.toFixed(2)}</span>
-                <p>
-                  até {product.parcelamento[0]}x de R$ {product.parcelamento[1].toFixed(2)}
-                </p>
-                <BuyButton>COMPRAR</BuyButton>
-              </ProductInfo>
-            </ProductCard>
-          ))}
-        </GridContainer>
-      )}
-      {sortedProducts.length > 9 && (
-        <LoadMoreButton onClick={loadMoreProducts}>
-          {visibleCount >= sortedProducts.length ? 'VER MENOS' : 'CARREGAR MAIS'}
-        </LoadMoreButton>
+        <div>
+          <GridContainer>
+            {sortedProducts.slice(0, visibleCount).map((product) => (
+              <ProductCard key={product.id}>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  style={{ width: '100%', height: 'auto' }}
+                />
+                <ProductInfo>
+                  <h3>{product.name}</h3>
+                  <span>R$ {product.price.toFixed(2)}</span>
+                  <p>
+                    até {product.parcelamento[0]}x de R$ {product.parcelamento[1].toFixed(2)}
+                  </p>
+                  <BuyButton>COMPRAR</BuyButton>
+                </ProductInfo>
+              </ProductCard>
+            ))}
+          </GridContainer>
+          <LoadMoreButton onClick={toggleProductsVisibility}>
+            {visibleCount >= sortedProducts.length ? 'VER MENOS' : 'CARREGAR MAIS'}
+          </LoadMoreButton>
+        </div>
       )}
     </>
   );
 };
+
 
 export default ProductsGrid;
