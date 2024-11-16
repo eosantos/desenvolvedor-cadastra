@@ -8,6 +8,12 @@ import Filters from '../components/Filters';
 import ProductsGrid from '../components/ProductsGrid';
 import Footer from '../components/Footer';
 
+interface FiltersState {
+  colors: string[];
+  sizes: string[];
+  prices: string[];
+}
+
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,7 +29,7 @@ const Content = styled.main`
   width: 100%;
   padding: 20px;
   display: flex;
-  flex-direction: column; /* Adicionado para organizar o título e o conteúdo verticalmente */
+  flex-direction: column;
   gap: 30px;
 `;
 
@@ -32,7 +38,7 @@ const TopBar = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 20px; /* Espaçamento entre a barra superior e os filtros/grid */
+  margin-bottom: 20px;
 `;
 
 const Title = styled.h1`
@@ -43,15 +49,15 @@ const Title = styled.h1`
 
 const FiltersAndGridContainer = styled.div`
   display: flex;
-  gap: 30px; /* Espaçamento entre filtros e grid */
+  gap: 30px;
 `;
 
 const FilterContainer = styled.div`
-  width: 170px; /* Largura fixa para os filtros */
+  width: 170px;
 `;
 
 const ProductsContainer = styled.div`
-  flex: 1; /* Faz o grid de produtos ocupar o restante do espaço */
+  flex: 1;
 `;
 
 const Separator = styled.div`
@@ -62,11 +68,21 @@ const Separator = styled.div`
 `;
 
 const Home: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [filters, setFilters] = useState<FiltersState>({
+    colors: [],
+    sizes: [],
+    prices: [],
+  });
+
   const options = ['Mais recentes', 'Menor preço', 'Maior preço'];
 
   const handleSelectChange = (value: string) => {
-    setSelectedOption(value);
+    setSelectedOption(value);    
+  };
+
+  const handleFilterChange = (newFilters: FiltersState) => {
+    setFilters(newFilters);
   };
 
   return (
@@ -77,7 +93,7 @@ const Home: React.FC = () => {
         <TopBar>
           <Title>Blusas</Title>
           <CustomSelect
-            options={options}
+            options={['Ordenar por:', ...options]}
             selectedOption={selectedOption}
             onSelect={handleSelectChange}
           />
@@ -86,10 +102,10 @@ const Home: React.FC = () => {
         {/* Container principal com filtros e grid */}
         <FiltersAndGridContainer>
           <FilterContainer>
-            <Filters />
+            <Filters onFilterChange={handleFilterChange} />
           </FilterContainer>
           <ProductsContainer>
-            <ProductsGrid />
+            <ProductsGrid order={selectedOption} filters={filters} />
           </ProductsContainer>
         </FiltersAndGridContainer>
       </Content>

@@ -90,7 +90,17 @@ const LoadMoreButton = styled.button`
   }
 `;
 
-const ProductsGrid: React.FC = () => {
+const NoProductsMessage = styled.p`
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  margin-top: 20px;
+`;
+
+const ProductsGrid: React.FC<{ order: string; filters: { colors: string[]; sizes: string[]; prices: string[] } }> = ({
+  order,
+  filters,
+}) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [visibleCount, setVisibleCount] = useState<number>(9);
@@ -113,11 +123,42 @@ const ProductsGrid: React.FC = () => {
 
   const loadMoreProducts = () => {
     if (visibleCount >= products.length) {
-      setVisibleCount(9); // Volta para os 9 primeiros
+      setVisibleCount(9);
     } else {
       setVisibleCount((prevCount) => prevCount + 9);
     }
   };
+
+  const parsePriceRange = (priceRange: string) => {
+    const match = priceRange.match(/de R\$(\d+) até R\$(\d+)/);
+    if (match) {
+      return {
+        min: parseInt(match[1]),
+        max: parseInt(match[2]),
+      };
+    }
+    if (priceRange === 'acima de R$500') {
+      return { min: 500, max: Infinity };
+    }
+    return { min: 0, max: 0 };
+  };
+
+  const filteredProducts = products.filter((product) => {
+    const matchesColor = filters.colors.length === 0 || filters.colors.includes(product.color);
+    const matchesSize = filters.sizes.length === 0 || filters.sizes.some(size => product.size.includes(size));
+    const matchesPrice = filters.prices.length === 0 || filters.prices.some(priceRange => {
+      const { min, max } = parsePriceRange(priceRange);
+      return product.price >= min && product.price <= max;
+    });
+    return matchesColor && matchesSize && matchesPrice;
+  });
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (order === 'Mais recentes') return new Date(b.date).getTime() - new Date(a.date).getTime();
+    if (order === 'Menor preço') return a.price - b.price;
+    if (order === 'Maior preço') return b.price - a.price;
+    return 0;
+  });
 
   if (loading) {
     return <p>Carregando produtos...</p>;
@@ -125,28 +166,32 @@ const ProductsGrid: React.FC = () => {
 
   return (
     <>
-      <GridContainer>
-        {products.slice(0, visibleCount).map((product) => (
-          <ProductCard key={product.id}>
-            <img
-              src={product.image}
-              alt={product.name}
-              style={{ width: '195px', height: 'auto' }}
-            />
-            <ProductInfo>
-              <h3>{product.name}</h3>
-              <span>R$ {product.price.toFixed(2)}</span>
-              <p>
-                até {product.parcelamento[0]}x de R$ {product.parcelamento[1].toFixed(2)}
-              </p>
-              <BuyButton>COMPRAR</BuyButton>
-            </ProductInfo>
-          </ProductCard>
-        ))}
-      </GridContainer>
-      {products.length > 9 && (
+      {sortedProducts.length === 0 ? (
+        <NoProductsMessage>Nenhum produto encontrado para o filtro selecionado :(</NoProductsMessage>
+      ) : (
+        <GridContainer>
+          {sortedProducts.slice(0, visibleCount).map((product) => (
+            <ProductCard key={product.id}>
+              <img
+                src={product.image}
+                alt={product.name}
+                style={{ width: '195px', height: 'auto' }}
+              />
+              <ProductInfo>
+                <h3>{product.name}</h3>
+                <span>R$ {product.price.toFixed(2)}</span>
+                <p>
+                  até {product.parcelamento[0]}x de R$ {product.parcelamento[1].toFixed(2)}
+                </p>
+                <BuyButton>COMPRAR</BuyButton>
+              </ProductInfo>
+            </ProductCard>
+          ))}
+        </GridContainer>
+      )}
+      {sortedProducts.length > 9 && (
         <LoadMoreButton onClick={loadMoreProducts}>
-          {visibleCount >= products.length ? 'VER MENOS' : 'CARREGAR MAIS'}
+          {visibleCount >= sortedProducts.length ? 'VER MENOS' : 'CARREGAR MAIS'}
         </LoadMoreButton>
       )}
     </>

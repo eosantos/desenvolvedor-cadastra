@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -148,30 +146,32 @@ const PriceLabel = styled.label`
   }
 `;
 
-const Filters: React.FC = () => {
+const Filters: React.FC<{ onFilterChange: (newFilters: { colors: string[]; sizes: string[]; prices: string[] }) => void }> = ({ onFilterChange }) => {
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
   const [showAllColors, setShowAllColors] = useState(false);
 
   const handleColorChange = (color: string) => {
-    setSelectedColors((prevColors) =>
-      prevColors.includes(color)
-        ? prevColors.filter((item) => item !== color)
-        : [...prevColors, color]
-    );
+    const updatedColors = selectedColors.includes(color)
+      ? selectedColors.filter((item) => item !== color)
+      : [...selectedColors, color];
+    setSelectedColors(updatedColors);
+    onFilterChange({ colors: updatedColors, sizes: selectedSize ? [selectedSize] : [], prices: selectedPrices });
   };
 
   const handleSizeSelect = (size: string) => {
-    setSelectedSize(size);
+    const updatedSize = selectedSize === size ? null : size;
+    setSelectedSize(updatedSize);
+    onFilterChange({ colors: selectedColors, sizes: updatedSize ? [updatedSize] : [], prices: selectedPrices });
   };
 
   const handlePriceChange = (price: string) => {
-    setSelectedPrices((prevPrices) =>
-      prevPrices.includes(price)
-        ? prevPrices.filter((item) => item !== price)
-        : [...prevPrices, price]
-    );
+    const updatedPrices = selectedPrices.includes(price)
+      ? selectedPrices.filter((item) => item !== price)
+      : [...selectedPrices, price];
+    setSelectedPrices(updatedPrices);
+    onFilterChange({ colors: selectedColors, sizes: selectedSize ? [selectedSize] : [], prices: updatedPrices });
   };
 
   const toggleColors = () => {
@@ -234,18 +234,16 @@ const Filters: React.FC = () => {
       <FilterSection>
         <FilterTitle>Faixa de Preço</FilterTitle>
         <PriceCheckboxContainer>
-          {[`de R$0 até R$50`, `de R$51 até R$151`, `de R$151 até R$300`, `de R$301 até R$500`, `a partir de R$500`].map(
-            (price) => (
-              <PriceLabel key={price}>
-                <input
-                  type="checkbox"
-                  checked={selectedPrices.includes(price)}
-                  onChange={() => handlePriceChange(price)}
-                />
-                {price}
-              </PriceLabel>
-            )
-          )}
+          {['de R$0 até R$50', 'de R$51 até R$151', 'de R$151 até R$300', 'de R$301 até R$500', 'acima de R$500'].map((price) => (
+            <PriceLabel key={price}>
+              <input
+                type="checkbox"
+                checked={selectedPrices.includes(price)}
+                onChange={() => handlePriceChange(price)}
+              />
+              {price}
+            </PriceLabel>
+          ))}
         </PriceCheckboxContainer>
       </FilterSection>
     </FiltersContainer>
