@@ -51,12 +51,16 @@ const TopBar = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    display: block;
+    align-self: center;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 100;
   color: #000;
 `;
 
@@ -92,10 +96,7 @@ const MobileButtonsContainer = styled.div`
   @media (max-width: 768px) {
     display: flex;
     justify-content: center;
-    gap: 10px;
     width: 100%;
-    margin-bottom: 20px;
-    padding: 0 10px;
   }
 `;
 
@@ -111,19 +112,18 @@ const MobileOnly = styled.div`
   display: none;
 
   @media (max-width: 768px) {
-    display: block;
+    display: block;    
   }
 `;
 
 const MobileButton = styled.button`
-  background-color: #fb953e;
-  color: #fff;
-  border: none;
-  padding: 10px;
+  background-color: #fff;
+  color: #666666;
+  border: 1px solid #666666;
   cursor: pointer;
-  font-size: 14px;
-  border-radius: 4px;
+  font-size: 24px;
   width: 48%;
+  padding: 5px
 `;
 
 const ProductsGridMobileContainer = styled.div`

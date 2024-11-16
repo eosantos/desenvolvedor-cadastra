@@ -11,6 +11,10 @@ const FooterContainer = styled.footer`
   font-size: 14px;
   font-weight: 100;
   text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const Footer: React.FC = () => {
