@@ -18,11 +18,11 @@ const GridContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 20px;
+  gap: 65px;
   width: 100%;
   justify-content: center;
   align-items: center;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 0 20px;
 
@@ -35,9 +35,11 @@ const GridContainer = styled.div`
     & > div {
       flex: 1 1 calc(50% - 15px);
       max-width: 130px;
-    }
-
+      }
+      
+    gap: 0;
     justify-content: center;
+    padding: 0;
   }
 `;
 
@@ -60,6 +62,12 @@ const ProductCard = styled.div`
     height: 380px;
     padding: 10px;
     margin: 0 auto;
+
+    button {
+      margin-top: 10px;
+      max-width: 152px;
+      gap: 5px;
+    }
   }
 
   img {
@@ -71,10 +79,11 @@ const ProductCard = styled.div`
   }
 
   h3 {
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 100;
     margin: 0;
     text-align: center;
+    text-transform: uppercase;
   }
 
   p {
@@ -87,8 +96,13 @@ const ProductCard = styled.div`
 
   button {
     margin-top: 10px;
-    width: 100%;
-    max-width: 130px;
+    max-width: 195px;
+  }
+
+  @media (max-width: 768px) {
+    button {
+      max-width: 150px;
+    }
   }
 `;
 
@@ -96,7 +110,6 @@ const ProductInfo = styled.div`
   margin-top: 10px;
 
   h3 {
-    font-size: 1rem;
     color: #000;
     font-wigth: 100;
     margin: 10px 0;
@@ -111,6 +124,7 @@ const TextPrice = styled.p `
   font-size: 1.2rem;
   color: #000;
   margin: 15px 0 5px 0;
+  font-weight: bold;
 }`
 
 
@@ -120,7 +134,7 @@ const BuyButton = styled.button`
   padding: 10px;
   border: none;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 14px;
   margin-top: 20px;
   width: 195px;
   font-weigth: bold;
@@ -132,7 +146,7 @@ const BuyButton = styled.button`
 
   @media (max-width: 768px) {
     max-width: 100%;
-      margin-top: 20px;
+    margin-top: 20px;
   }
 `;
 
@@ -141,7 +155,6 @@ const LoadMoreButton = styled.button`
   color: white;
   border: none;
   padding: 10px;
-  border-radius: 5px;
   cursor: pointer;
   width: 165px;
   margin: 20px auto 60px auto; /* Centraliza no eixo horizontal */

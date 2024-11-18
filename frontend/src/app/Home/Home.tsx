@@ -7,7 +7,7 @@ import Filters from '../components/Filters';
 import ProductsGrid from '../components/ProductsGrid';
 import Footer from '../components/Footer';
 import CustomSelect from '../components/CustomSelect';
-import { ModalOverlay, ModalContent, ModalTitle, CloseButton, ModalButton, ModalButtonContainer } from '../components/Modal';
+import { ModalOverlay, ModalContent, ModalTitle, CloseButton, ModalButton, ModalButtonContainer, ModalButtonClear } from '../components/Modal';
 import Accordion from '../components/Accordion';
 
 interface ModalProps {
@@ -305,6 +305,19 @@ const ProductsGridDesktopContainer = styled.div`
   }
 `;
 
+const OrderSection = styled.div`
+  display: flex;
+  flex-direction: column;
+    gap: 20px;
+`
+
+const OrderLabel = styled.p`
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  color: #666;
+`
+
 const Home: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>('Ordenar por:');
   const [filters, setFilters] = useState<FiltersState>({
@@ -379,6 +392,13 @@ const Home: React.FC = () => {
     setFilters(newFilters);
   };
 
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+
+  const handleOptionSelect = (value: string) => {
+    setSelectedOption(value);
+    setIsOrderModalOpen(false); // Fecha o modal após a seleção
+  };
+
   return (
     <HomeContainer>
       <Header />
@@ -396,7 +416,7 @@ const Home: React.FC = () => {
 
         <MobileButtonsContainer>
           <MobileButton onClick={() => setIsMobileFiltersOpen(true)}>Filtrar</MobileButton>
-          <MobileButton onClick={() => setIsMobileOrderOpen(true)}>Ordenar</MobileButton>
+          <MobileButton  onClick={() => setIsOrderModalOpen(true)}>Ordenar</MobileButton>
         </MobileButtonsContainer>
 
         <ProductsGridMobileContainer>
@@ -489,9 +509,26 @@ const Home: React.FC = () => {
           </Accordion>
 
           <ModalButtonContainer>
-            <ModalButton onClick={() => setIsMobileFiltersOpen(false)}>Aplicar</ModalButton>
-            <ModalButton onClick={handleClearFilters}>Limpar</ModalButton>
+            <ModalButton onClick={() => setIsMobileFiltersOpen(false)}>APLICAR</ModalButton>
+            <ModalButtonClear onClick={handleClearFilters}>LIMPAR</ModalButtonClear>
           </ModalButtonContainer>
+        </ModalContent>
+      </ModalOverlay>
+
+      <ModalOverlay $isOpen={isOrderModalOpen}>
+        <ModalContent>
+          <CloseButton onClick={() => setIsOrderModalOpen(false)}>x</CloseButton>
+          <ModalTitle>ORDENAR</ModalTitle>
+          <OrderSection title="FAIXA DE PREÇO">
+            {options.map((option) => (
+              <OrderLabel
+                key={option}
+                onClick={() => handleOptionSelect(option)}
+              >
+                {option}
+              </OrderLabel>
+            ))}
+          </OrderSection>
         </ModalContent>
       </ModalOverlay>
     </HomeContainer>

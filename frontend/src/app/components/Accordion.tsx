@@ -17,14 +17,14 @@ const AccordionHeader = styled.div`
 
 const AccordionTitle = styled.h3`
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 100;
   margin: 0;
-  color: #333;
+  color: #666666;
 `;
 
 const AccordionIcon = styled.span`
   font-size: 18px;
-  color: #666;
+  color: #666666;
 `;
 
 const AccordionContent = styled.div`

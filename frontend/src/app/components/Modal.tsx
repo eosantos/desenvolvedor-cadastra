@@ -71,12 +71,10 @@ const ModalButton = styled.button`
   background-color: #fb953e;
   color: #fff;
   border: none;
-  padding: 12px;
+  padding: 8px;
   cursor: pointer;
-  font-size: 16px;
-  border-radius: 4px;
+  font-size: 14px;
   flex: 1;
-  margin-top: 10px;
   text-align: center;
 
   &:hover {
@@ -84,4 +82,19 @@ const ModalButton = styled.button`
   }
 `;
 
-export { ModalOverlay, ModalContent, ModalTitle, CloseButton, ModalButton, ModalButtonContainer };
+const ModalButtonClear = styled.button`
+  background-color: transparent;
+  color: #666666;
+  border: 1px solid #666666;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  flex: 1;
+  text-align: center;
+
+  &:hover {
+    background-color: #e77a2b;
+  }
+`;
+
+export { ModalOverlay, ModalContent, ModalTitle, CloseButton, ModalButton, ModalButtonContainer, ModalButtonClear };

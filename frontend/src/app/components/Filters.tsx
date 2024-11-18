@@ -17,7 +17,7 @@ const FilterSection = styled.div`
 
 const FilterTitle = styled.h3`
   font-size: 16px;
-  color: #666666;
+  color: #333333;
   margin-bottom: 15px;
   font-weight: 100;
 `;
@@ -32,7 +32,7 @@ const ColorLabel = styled.label`
   display: flex;
   align-items: center;
   font-size: 14px;
-  color: #666;
+  color: #000;
 
   input {
     margin-right: 8px;
@@ -40,7 +40,7 @@ const ColorLabel = styled.label`
     -webkit-appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #666;
+    border: 2px solid #00000080;
     background-color: #fff;
     position: relative;
     cursor: pointer;
@@ -64,7 +64,7 @@ const ColorLabel = styled.label`
 
 const LinkText = styled.a`
   font-size: 14px;
-  color: #333333;
+  color: #666666;
   cursor: pointer;
   text-decoration: none;
   margin-top: 10px;
@@ -94,7 +94,7 @@ const SizeButton = styled.button<{ selected: boolean }>`
   background-color: transparent;
   border: 2px solid ${(props) => (props.selected ? '#fb953e' : '#ccc')};
   border-radius: 4px;
-  color: ${(props) => (props.selected ? '#000' : '#666')};
+  color: ${(props) => (props.selected ? '#000' : '#00000080')};
   cursor: pointer;
 
   &:hover {
@@ -115,7 +115,7 @@ const PriceLabel = styled.label`
   display: flex;
   align-items: center;
   font-size: 14px;
-  color: #666;
+  color: #000000;
 
   input {
     margin-right: 8px;
@@ -123,7 +123,7 @@ const PriceLabel = styled.label`
     -webkit-appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #666;
+    border: 2px solid #00000080;
     background-color: #fff;
     position: relative;
     cursor: pointer;
