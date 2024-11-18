@@ -4,15 +4,17 @@ interface ModalProps {
   $isOpen: boolean;
 }
 
-const ModalOverlay = styled.div<ModalProps>`
+const ModalOverlay = styled.div<{ $isOpen: boolean }>`
+  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
-  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1666666;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ModalContent = styled.div`
@@ -28,28 +30,41 @@ const ModalContent = styled.div`
 
   @media (max-width: 768px) {
     top: 0;
-    padding: 20px 0;
+    padding: 20px;
     overflow-y: auto;
   }
 `;
 
 const ModalTitle = styled.h2`
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
+  font-size: 28px;
+  font-weight: 100;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  text-align: left;
+  color: #666666;
+  border-bottom: 1px solid #ddd;
 `;
 
 const CloseButton = styled.button`
   background-color: transparent;
-  color: #000;
+  color: #666666;
   border: none;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 28px;
+  font-weight: 100;
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 20px;
   cursor: pointer;
+`;
+
+const ModalButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 `;
 
 const ModalButton = styled.button`
@@ -60,7 +75,7 @@ const ModalButton = styled.button`
   cursor: pointer;
   font-size: 16px;
   border-radius: 4px;
-  width: 100%;
+  flex: 1;
   margin-top: 10px;
   text-align: center;
 
@@ -69,4 +84,4 @@ const ModalButton = styled.button`
   }
 `;
 
-export { ModalOverlay, ModalContent, ModalTitle, CloseButton, ModalButton };
+export { ModalOverlay, ModalContent, ModalTitle, CloseButton, ModalButton, ModalButtonContainer };

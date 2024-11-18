@@ -16,9 +16,10 @@ const FilterSection = styled.div`
 `;
 
 const FilterTitle = styled.h3`
-  font-size: 18px;
-  color: #000;
-  margin-bottom: 10px;
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 15px;
+  font-weight: 100;
 `;
 
 const ColorCheckboxContainer = styled.div`
@@ -40,18 +41,16 @@ const ColorLabel = styled.label`
     width: 18px;
     height: 18px;
     border: 2px solid #666;
-    border-radius: 4px;
     background-color: #fff;
     position: relative;
     cursor: pointer;
 
     &:checked {
       background-color: #fb953e;
-      border-color: #fb953e;
+      box-shadow: inset 0 0 0 2px #fff;
     }
 
     &:checked::after {
-      content: '✔';
       position: absolute;
       top: 50%;
       left: 50%;
@@ -86,21 +85,23 @@ const SizeOptionsContainer = styled.div`
 `;
 
 const SizeButton = styled.button<{ selected: boolean }>`
-  width: 50px; /* Tamanho fixo */
-  height: 40px; /* Tamanho fixo */
+  width: 50px;
+  height: 40px;
   font-size: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => (props.selected ? '#fb953e' : '#f1f1f1')};
-  border: 1px solid #ccc;
+  background-color: transparent;
+  border: 2px solid ${(props) => (props.selected ? '#fb953e' : '#ccc')};
   border-radius: 4px;
-  color: ${(props) => (props.selected ? '#fff' : '#666')};
+  color: ${(props) => (props.selected ? '#000' : '#666')};
   cursor: pointer;
 
   &:hover {
-    background-color: #fb953e;
-    color: white;
+    background-color: transparent;
+    border: 2px solid #fb953e;
+    color: #000;
+    font-weigth: bold;
   }
 `;
 
@@ -123,18 +124,16 @@ const PriceLabel = styled.label`
     width: 18px;
     height: 18px;
     border: 2px solid #666;
-    border-radius: 4px;
     background-color: #fff;
     position: relative;
     cursor: pointer;
 
     &:checked {
       background-color: #fb953e;
-      border-color: #fb953e;
+      box-shadow: inset 0 0 0 2px #fff;
     }
 
     &:checked::after {
-      content: '✔';
       position: absolute;
       top: 50%;
       left: 50%;
@@ -182,7 +181,7 @@ const Filters: React.FC<{ onFilterChange: (newFilters: { colors: string[]; sizes
     <FiltersContainer>
       {/* Filtro de Cores */}
       <FilterSection>
-        <FilterTitle>Cores</FilterTitle>
+        <FilterTitle>CORES</FilterTitle>
         <ColorCheckboxContainer>
           {['Amarelo', 'Azul', 'Branco', 'Cinza', 'Laranja'].map((color) => (
             <ColorLabel key={color}>
@@ -216,7 +215,7 @@ const Filters: React.FC<{ onFilterChange: (newFilters: { colors: string[]; sizes
 
       {/* Filtro de Tamanhos */}
       <FilterSection>
-        <FilterTitle>Tamanhos</FilterTitle>
+        <FilterTitle>TAMANHOS</FilterTitle>
         <SizeOptionsContainer>
           {['P', 'M', 'G', 'GG', 'U', '36', '38', '40', '42', '44', '46'].map((size) => (
             <SizeButton
@@ -232,7 +231,7 @@ const Filters: React.FC<{ onFilterChange: (newFilters: { colors: string[]; sizes
 
       {/* Filtro de Faixa de Preço */}
       <FilterSection>
-        <FilterTitle>Faixa de Preço</FilterTitle>
+        <FilterTitle>FAIXA DE PREÇO</FilterTitle>
         <PriceCheckboxContainer>
           {['de R$0 até R$50', 'de R$51 até R$151', 'de R$151 até R$300', 'de R$301 até R$500', 'acima de R$500'].map((price) => (
             <PriceLabel key={price}>
