@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { fetchProducts } from '../services/api'; // Importando o serviço
 
 interface Product {
   id: string;
@@ -181,26 +182,26 @@ const ProductsGrid: React.FC<{ order: string; filters: { colors: string[]; sizes
   const [visibleCount, setVisibleCount] = useState<number>(9);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const loadProducts = async () => {
+      setLoading(true);
       try {
-        const response = await fetch('http://localhost:5000/products');
-        const data = await response.json();
+        const data = await fetchProducts(); // Usando o serviço
         setProducts(data);
       } catch (error) {
-        console.error('Erro ao buscar produtos:', error);
+        console.error('Erro ao carregar produtos:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProducts();
+    loadProducts();
   }, []);
 
   const toggleProductsVisibility = () => {
     if (visibleCount >= products.length) {
-      setVisibleCount(9); // Reduz para 9 produtos
+      setVisibleCount(9);
     } else {
-      setVisibleCount((prevCount) => prevCount + 9); // Aumenta a quantidade visível
+      setVisibleCount((prevCount) => prevCount + 9);
     }
   };
 
@@ -272,6 +273,5 @@ const ProductsGrid: React.FC<{ order: string; filters: { colors: string[]; sizes
     </>
   );
 };
-
 
 export default ProductsGrid;
