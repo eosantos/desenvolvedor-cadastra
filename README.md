@@ -16,7 +16,7 @@ Este é um projeto de teste técnico para avaliação de conhecimentos em desenv
 <br>
 <hr>
 <div align="center">
-	<img width="600" margin-right="30px" src="src/assets/to_readme/Tela_001.png">	
+	<img width="600" margin-right="30px" src="src/app/assets/to_readme/Tela_001.png">	
 </div>
 <hr>
 <br>
@@ -68,7 +68,7 @@ git clone https://github.com/eosantos/desenvolvedor-cadastra.git
 Com o comando abaixo instalamos todos os pacotes definidos no package.json para configuração do servidor local na pasta beckend, frontend e raiz:
 
 ```sh
-npm run dev
+npm i
 ```
 
 ### Acessando a aplicação
@@ -76,7 +76,7 @@ npm run dev
 Para iniciar o projeto basta executar o comando abaixo:
 
 ```sh
-npm star
+npm run dev
 ```
 
 Após a execução do comando acima basta o layout é acessível em `http://localhost:3000` e a API em `http://localhost:5000/products`.
