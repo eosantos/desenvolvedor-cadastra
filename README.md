@@ -16,7 +16,7 @@ Este é um projeto de teste técnico para avaliação de conhecimentos em desenv
 <br>
 <hr>
 <div align="center">
-	<img width="600" margin-right="30px" src="frontend/public/assets/to_readme/Tela_001.png">	
+	<img width="800" margin-right="30px" src="frontend/public/assets/to_readme/Tela_001.png">	
 </div>
 <hr>
 <br>
