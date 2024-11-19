@@ -16,7 +16,7 @@ Este é um projeto de teste técnico para avaliação de conhecimentos em desenv
 <br>
 <hr>
 <div align="center">
-	<img width="600" margin-right="30px" src="public/assets/to_readme/Tela_001.png">	
+	<img width="600" margin-right="30px" src="frontend/public/assets/to_readme/Tela_001.png">	
 </div>
 <hr>
 <br>
@@ -24,14 +24,14 @@ Este é um projeto de teste técnico para avaliação de conhecimentos em desenv
 ## Estrutura
 
     Desenvolvedor Cadastra
-    beckend/
-    frontend/
-    ├── src                            (Diretório principal dos arquivos do projeto)
-    │   ├── assets                     (Recursos de folhas de estilo, scripts, fontes e imagens)
-    │   ├── components                 (Componentes que não possuem estados, são chamados de dummy components)
-    │   ├── services                   (Utilizado para transferir dados através de protocolos de comunicação para diferentes plataformas)
-    ├── README.md                      (Breve definição/Documentação)
-    └── ...                            (Outros arquivos de configuração)
+        backend/
+        frontend/
+        ├── public/
+        ├── app/
+        │     └── src/                            (Diretório principal dos arquivos do projeto)
+        │          └── components                 (Componentes que não possuem estados, são chamados de dummy components)
+        ├── README.md                      (Breve definição/Documentação)
+        └── ...                            (Outros arquivos de configuração)
 
 ### Ferramentas
 
@@ -63,24 +63,6 @@ HTTPS
 git clone https://github.com/eosantos/desenvolvedor-cadastra.git
 ```
 
-### Instalar dependências do projeto
-
-Com o comando abaixo instalamos todos os pacotes definidos no package.json para configuração do servidor local na pasta beckend, frontend e raiz:
-
-```sh
-npm i
-```
-
-### Acessando a aplicação
-
-Para iniciar o projeto basta executar o comando abaixo:
-
-```sh
-npm run dev
-```
-
-Após a execução do comando acima basta o layout é acessível em `http://localhost:3000` e a API em `http://localhost:5000/products`.
-
 ### Chaves de Ambiente
 
 Crie um arquivo .env.local na raiz do projeto e adicione a chave.
@@ -88,6 +70,24 @@ Crie um arquivo .env.local na raiz do projeto e adicione a chave.
 ````
 NEXT_PUBLIC_API_URL=http://localhost:5000
 ````
+
+### Instalar dependências do projeto
+
+Com o comando abaixo instalamos todos os pacotes definidos no package.json para configuração do servidor local, instale nas 3 pastas: beckend, frontend e raiz:
+
+```sh
+npm i
+```
+
+### Acessando a aplicação
+
+Para iniciar o projeto basta executar o comando abaixo na pasta raiz:
+
+```sh
+npm run dev
+```
+
+Após a execução do comando acima basta o layout é acessível em `http://localhost:3000` e a API em `http://localhost:5000/products`.
 
 ### Deploy
 
